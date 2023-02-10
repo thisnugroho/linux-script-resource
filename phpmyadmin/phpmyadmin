@@ -1,0 +1,15 @@
+#! /bin/bash
+
+case $1 in
+    start)
+        sudo a2ensite pamin && sudo service apache2 restart
+        ;;
+    restart)
+        sudo service apache2 restart
+        # restart
+        ;;
+    stop)
+        sudo a2dissite pamin && sudo service apache2 restart
+        # stop
+        ;;
+esac
