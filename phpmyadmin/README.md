@@ -1,54 +1,37 @@
 # PhpMyAdmin
 
-## Config Apache2
-```apache2
-<VirtualHost 161.97.174.226:9292>
-	SuexecUserGroup "#33" "#33"
-	ServerName 161.97.174.226
-	DocumentRoot /var/www/pamin
-	ErrorLog /var/log/apache2/pamin_error.log
-	CustomLog /var/log/apache2/pamin_access.log combined
-	DirectoryIndex index.php index.php4 index.php5 index.htm index.html
-	<Directory /var/www/pamin>
-		Options -Indexes +IncludesNOEXEC +SymLinksIfOwnerMatch +ExecCGI
-	        allow from all
-	        AllowOverride All Options=ExecCGI,Includes,IncludesNOEXEC,Indexes,MultiViews,SymLinksIfOwnerMatch
-	        Require all granted
-	</Directory>
-    	RemoveHandler .php5.6
-	RemoveHandler .php7.2
-	RemoveHandler .php7.3
-	RemoveHandler .php7.4
-	RemoveHandler .php8.1
-	<FilesMatch \.php$>
-		SetHandler proxy:unix:/var/php-fpm/pamin.sock|fcgi://localhost
-	</FilesMatch>
-	php_admin_value engine Off
+This script will assist you in installing phpMyAdmin, and you can start or stop it at any time using the `phpmyadmin` commands
 
-</VirtualHost>
+## Requirements
 
-```
+- Apache2
+- PHP 8.1
+- Php-fpm
+- MySQL 5.x + 
 
-## Script to manage
-
-```bash
-#! /bin/bash
-
-case $1 in
-    start)
-        sudo a2ensite pamin && sudo service apache2 restart
-        ;;
-    restart)
-        sudo service apache2 restart
-        ;;
-    stop)
-        sudo a2dissite pamin && sudo service apache2 restart
-        ;;
-esac
-```
-
-Put this script on `/usr/bin/pamin`, then change the permission with following command:
+## Usage
 
 ```shell
-sudo chmod +x /usr/bin/pamin
+curl https://raw.githubusercontent.com/thisnugroho/linux-script-resource/main/phpmyadmin/install.sh | bash
 ```
+### Start phpmyadmin
+
+```shell
+phpmyadmin start
+```
+
+### Stop phpmyadmin
+
+```shell
+phpmyadmin stop
+```
+
+
+## What Does install.sh do ?
+
+After running install.sh, it will perform the following actions:
+
+1. Download phpMyAdmin
+2. Create the /var/phpmyadmin folder and extract the downloaded phpMyAdmin archive to that location.
+3. Create a phpmyadmin file and place it in /usr/bin so that it can be executed.
+4. Create a Virtual Host and PHP-FPM configuration file, phpmyadmin.conf.
