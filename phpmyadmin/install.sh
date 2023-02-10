@@ -40,4 +40,4 @@ install() {
   printf "Access : $SERVER_IP:9292\n"
 }
 
-installPamin
+install
